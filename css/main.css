@@ -1,7 +1,3 @@
-#canvasForPieChart{
-/*
-    width:500px;
-    height: 500px;
-*/
-
+canvas{
+	border: 2px dashed #333;	
 }
