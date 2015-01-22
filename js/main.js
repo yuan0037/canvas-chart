@@ -1,12 +1,64 @@
+
+function createAJAXObj() {
+    'use strict';
+    try {
+        return new XMLHttpRequest();
+    } catch (er1) {
+        try {
+            return new ActiveXObject("Msxml3.XMLHTTP");
+        } catch (er2) {
+            try {
+                return new ActiveXObject("Msxml2.XMLHTTP.6.0");
+            } catch (er3) {
+                try {
+                    return new ActiveXObject("Msxml2.XMLHTTP.3.0");
+                } catch (er4) {
+                    try {
+                        return new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (er5) {
+                        try {
+                            return new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (er6) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+function sendRequest(url, callback, postData) {
+    'use strict';
+    var req = createAJAXObj(), method = (postData) ? "POST" : "GET";
+    if (!req) {
+        return;
+    }
+    req.open(method, url, true);
+    //req.setRequestHeader('User-Agent', 'XMLHTTP/1.0');
+    if (postData) {
+        req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    }
+    req.onreadystatechange = function () {
+        if (req.readyState !== 4) {
+            return;
+        }
+        if (req.status !== 200 && req.status !== 304) {
+            return;
+        }
+        callback(req);
+    }
+    req.send(postData);
+}
+
+
 function fetchJSONFile(path, callback) {
     var httpRequest = new XMLHttpRequest();
-    console.log('step 1');
     httpRequest.onreadystatechange = function () {
         if (httpRequest.readyState === 4) {
             if (httpRequest.status === 200) {
                 var data = httpRequest.responseText; //JSON.parse(httpRequest.responseText);
 
-                console.log(data.length);
+                //console.log(data.length);
                 //                for (var i = 0; i < obj.length; i++) {
                 //                    console.log(obj[i].value);
                 //                }
@@ -19,22 +71,24 @@ function fetchJSONFile(path, callback) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    fetchJSONFile('json/cheese.json', function (data) {
-        //console.log('data = '+data);  
-        extractEntity(data);
-    });
-    console.log('test');
+//    fetchJSONFile('json/cheese.json', function (data) {
+//        //console.log('data = '+data);  
+//        extractEntity(data);    
+    sendRequest('json/cheese.json', myCallBack, 'GET');
 });
 
+function myCallBack(data){
+    extractEntity(data);
+}
+function myPostData(data){
+}
 function extractEntity(data) {
-
-    console.log(JSON.parse(data));
-    var entityArray = JSON.parse(data);
+    //console.log(JSON.parse(data.responseText));
+    var entityArray = JSON.parse(data.responseText);
     var minValue;
     var maxValue;
     var totalValue = 0;
     for (i = 0; i < entityArray.segments.length; i++) {
-        console.log(i);
         totalValue += entityArray.segments[i].value;
         // console.log(entity);
         if (i == 0) {
@@ -48,7 +102,7 @@ function extractEntity(data) {
                 maxValue = entityArray.segments[i].value;
         }
     }
-    console.log(minValue + "--" + maxValue + "--" + totalValue);
+    //console.log(minValue + "--" + maxValue + "--" + totalValue);
 
     var pieChart = document.querySelector("#pieChart");
     var context = pieChart.getContext("2d");
