@@ -47,7 +47,7 @@ function sendRequest(url, callback, postData) {
         }
         callback(req);
     }
-    req.send();
+    req.send(postData);
 }
 
 
