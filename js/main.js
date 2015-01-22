@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
 //    fetchJSONFile('json/cheese.json', function (data) {
 //        //console.log('data = '+data);  
 //        extractEntity(data);    
-    sendRequest('json/cheese.json', myCallBack, 'GET');
+    sendRequest('json/cheese.json', myCallBack);
 });
 
 function myCallBack(data){
