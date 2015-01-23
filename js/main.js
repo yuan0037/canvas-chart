@@ -113,7 +113,7 @@ function extractEntity(data) {
         setDefaultStyles(context);
         var cx = (pieChart.width) / 2;
         var cy = (pieChart.height) / 2;
-        var radius = 200;
+        var radius = 100;
         var currentAngle = 0;
 
         for (var i = 0; i < entityArray.segments.length; i++) {
@@ -181,10 +181,10 @@ function extractEntity(data) {
         //set the styles in case others have been set
         setDefaultStyles(context);
         //the percentage of each value will be used to determine the height of the bars.
-        var graphHeight = 500; //bottom edge of the graph
-        var offsetX = 20; //space away from left edge of canvas to start drawing.
-        var barWidth = 30; //width of each bar in the graph
-        var spaceBetweenPoints = 50; //how far apart to make each x value.
+        var graphHeight = 400; //bottom edge of the graph
+        var offsetX = 10; //space away from left edge of canvas to start drawing.
+        var barWidth = 20; //width of each bar in the graph
+        var spaceBetweenPoints = 40; //how far apart to make each x value.
         //start at values[1].
         //values[0] is the moveTo point.
         var x = offsetX + 30; //left edge of first rectangle
